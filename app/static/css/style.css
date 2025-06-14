@@ -1,0 +1,367 @@
+:root {
+    /* Default Dark Theme Variables */
+    --body-bg: #1e1e1e;
+    --body-text-color: #e0e0e0;
+    --container-bg: #2c2c2c;
+    --container-border-color: #444;
+    --label-color: #c7c7c7;
+    --input-bg: #3b3b3b;
+    --input-border-color: #555;
+    --input-text-color: #e0e0e0;
+    --disabled-bg: #555;
+    --disabled-text-color: #aaa;
+    --primary-accent-color: #007bff;
+    --primary-accent-hover-color: #0056b3;
+    --secondary-accent-color: #28a745;
+    --secondary-accent-hover-color: #1e7e34;
+    --status-text-contrast-bg: #1e1e1e; /* For text on light status messages */
+    --status-success-bg: #a7d7a7;
+    --status-success-text: #0f3d0f;
+    --status-success-border: #8fbc8f;
+    --status-error-bg: #f0a8a8;
+    --status-error-text: #5c1a1a;
+    --status-error-border: #d99797;
+    --char-counter-color: #aaa;
+    --box-shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme {
+    /* Light Theme Variable Overrides */
+    --body-bg: #ffffff;
+    --body-text-color: #212529;
+    --container-bg: #f8f9fa;
+    --container-border-color: #dee2e6;
+    --label-color: #495057;
+    --input-bg: #ffffff;
+    --input-border-color: #ced4da;
+    --input-text-color: #495057;
+    --disabled-bg: #ced4da;
+    --disabled-text-color: #6c757d;
+    --status-text-contrast-bg: #f8f9fa; /* For text on dark status messages if needed, or just use body-text-color */
+    --status-success-bg: #d4edda;
+    --status-success-text: #155724;
+    --status-success-border: #c3e6cb;
+    --status-error-bg: #f8d7da;
+    --status-error-text: #721c24;
+    --status-error-border: #f5c6cb;
+    --char-counter-color: #6c757d;
+    --box-shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--body-bg);
+    color: var(--body-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: var(--container-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px var(--box-shadow-color);
+    border: 1px solid var(--container-border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    color: var(--body-text-color); /* Using body text color for h1, or define --heading-color */
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--label-color);
+}
+
+.form-group select,
+.form-group textarea,
+.form-group input[type="text"] { 
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    box-sizing: border-box; 
+    background-color: var(--input-bg);
+    color: var(--input-text-color);
+}
+
+.form-group select option {
+    background-color: var(--input-bg); /* Might not be stylable in all browsers */
+    color: var(--input-text-color);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+#style-instructions-input {
+    min-height: 40px; 
+    height: 5em; 
+}
+
+.radio-group {
+    display: flex; /* This was missing */
+    align-items: center; 
+}
+
+.radio-group label {
+    font-weight: normal;
+    margin-right: 10px;
+    color: var(--label-color);
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+    vertical-align: middle;
+    accent-color: var(--primary-accent-color);
+}
+
+button#synthesize-button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--primary-accent-color);
+    color: white; /* Assuming white text for primary button is okay on both themes */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button#synthesize-button:hover {
+    background-color: var(--primary-accent-hover-color);
+}
+
+button#synthesize-button:disabled {
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text-color);
+    cursor: not-allowed;
+}
+
+.status {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    min-height: 20px; 
+    /* color for status text needs to contrast with status background */
+}
+
+.status.success {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+    border: 1px solid var(--status-success-border);
+}
+
+.status.error {
+    background-color: var(--status-error-bg);
+    color: var(--status-error-text);
+    border: 1px solid var(--status-error-border);
+}
+
+.audio-output {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--container-border-color);
+}
+
+.audio-output h2 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: var(--label-color); /* Using label color, or define a specific heading color */
+}
+
+#audio-player {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#download-link {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--secondary-accent-color);
+    color: white; /* Assuming white text for download button is okay on both themes */
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#download-link:hover {
+    background-color: var(--secondary-accent-hover-color);
+}
+
+.char-counter {
+    display: block; 
+    text-align: right;
+    font-size: 0.8em;
+    color: var(--char-counter-color);
+    margin-top: 4px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal; 
+    color: var(--label-color); /* Use label color for consistency */
+}
+
+.checkbox-input {
+    margin-right: 8px; 
+    accent-color: var(--primary-accent-color);
+}
+
+/* Specific styling for the textareas if needed beyond general .form-group textarea */
+#text-input {
+    min-height: 100px; /* Restore specific min-height for main text area */
+}
+
+.slider {
+    width: 100%; /* Default for sliders if not overridden by ID */
+    accent-color: var(--primary-accent-color);
+    margin-top: 5px; /* Add a little space between label and slider in stacked layout */
+}
+
+/* Specific widths for the three main sliders */
+#temperature-slider,
+#chunk-size-slider,
+#api-timeout-slider {
+    width: 33%; /* Approximately one-third of the container */
+}
+
+/* Theme Toggle Switch (Basic styling, can be enhanced) */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Position to the right */
+    margin-bottom: 10px;
+}
+
+.theme-switch-label {
+    margin-right: 8px;
+    font-size: 0.9em;
+    color: var(--label-color);
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px; /* Width of the switch */
+    height: 24px; /* Height of the switch */
+}
+
+.theme-switch input { 
+    opacity: 0; 
+    width: 0; 
+    height: 0; 
+}
+
+.slider-round {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--input-border-color); /* Use a neutral color for the track */
+    transition: .4s;
+    border-radius: 24px; /* Make it round */
+}
+
+.slider-round:before {
+    position: absolute;
+    content: "";
+    height: 18px; /* Height of the knob */
+    width: 18px; /* Width of the knob */
+    left: 3px; /* Position of the knob */
+    bottom: 3px; /* Position of the knob */
+    background-color: white; /* Knob color */
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider-round {
+    background-color: var(--primary-accent-color);
+}
+
+input:focus + .slider-round {
+    box-shadow: 0 0 1px var(--primary-accent-color);
+}
+
+input:checked + .slider-round:before {
+    transform: translateX(26px); /* How far the knob moves */
+}
+
+
+.synthesis-controls {
+    display: flex;
+    gap: 10px; /* Space between Synthesize and Cancel buttons */
+    margin-top: 20px; /* Same margin as synthesize-button had */
+    align-items: stretch; /* Attempt to make buttons equal height by default */
+}
+
+/* Common styles for buttons within .synthesis-controls */
+.synthesis-controls > button {
+    padding: 10px 15px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box; 
+    line-height: 1.5; 
+    text-align: center; /* Ensure text is centered */
+}
+
+.synthesis-controls > button#synthesize-button {
+    flex-basis: 73%; /* Approx 3/4, adjust with gap */
+    flex-grow: 0;   /* Don't grow beyond basis */
+    flex-shrink: 0; /* Don't shrink below basis */
+    background-color: var(--primary-accent-color);
+    margin-top: 0; /* Override any margin from a more general #synthesize-button rule */
+}
+.synthesis-controls > button#synthesize-button:hover {
+    background-color: var(--primary-accent-hover-color);
+}
+
+.synthesis-controls > button#cancel-button {
+    flex-basis: 23%; /* Approx 1/4, adjust with gap */
+    flex-grow: 0;   /* Don't grow beyond basis */
+    flex-shrink: 0; /* Don't shrink below basis */
+    background-color: #d9534f; /* Softer red for active cancel button */
+}
+
+.synthesis-controls > button#cancel-button:hover:not(:disabled) {
+    background-color: #c9302c; /* Darker shade for hover on active cancel */
+}
+
+/* General disabled state for buttons within .synthesis-controls */
+.synthesis-controls > button:disabled {
+    /* This rule will apply to synthesize-button when disabled */
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text-color);
+    cursor: not-allowed;
+    /* border-color: var(--disabled-bg); /* If they had borders */
+}
+
+/* Specific disabled state for cancel button to override its active background */
+.synthesis-controls > button#cancel-button:disabled {
+    background-color: var(--disabled-bg); /* Explicitly use disabled background */
+    color: var(--disabled-text-color); /* Ensure text color is also for disabled state */
+    /* cursor: not-allowed; is inherited or can be re-stated if needed */
+}

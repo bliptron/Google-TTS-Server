@@ -1,0 +1,52 @@
+# Configuration file for Gemini TTS Server
+
+# --- API and Model Settings ---
+# Name of the environment variable for your Gemini API Key.
+# IMPORTANT: For security reasons, store the actual key in a .env file, NOT here.
+gemini_api_key_env_var = "GEMINI_API_KEY"
+
+# Default Gemini TTS model to use.
+default_tts_model = "gemini-2.5-pro-preview-tts"
+
+# --- Application Behavior Defaults ---
+# Default style instruction prompt for the UI. Max 200 chars in UI.
+default_style_prompt = "Read aloud in a warm and friendly tone:"
+
+# Maximum allowed characters in main text input (for audiobook-length texts)
+default_max_text_chars = 20000
+
+# Default audio output format. UI options: "wav", "mp3", "flac".
+default_audio_format = "wav"
+
+# Default synthesis temperature (0.0 to 2.0). UI slider defaults to this.
+default_temperature = 1.0
+
+# Default target character count for splitting text. UI slider defaults to this (Min: 200, Max: 4500).
+default_chunk_size_chars = 1500
+
+# Default timeout in seconds for API requests. UI slider defaults to this (Min: 30, Max: 180).
+default_api_timeout_seconds = 90
+
+# Default voice to be selected in the UI. Should match one of the display_names from tts_client.py (e.g., "Fenrir", "Puck", "Zephyr").
+default_voice_display_name = "Fenrir"
+
+# Default UI theme ("light" or "dark")
+default_theme = "dark"
+
+# --- Server Settings ---
+# These settings are used by server.py when launching the Uvicorn server.
+
+# Host for the server:
+# - "0.0.0.0" makes it accessible on your network (less secure)
+# - "127.0.0.1" for local only (default fallback in code)
+# Note: The code defaults to 127.0.0.1 if not specified here for security
+server_host = "0.0.0.0"
+
+# Port for the server
+server_port = 8008
+
+# Audio sample rate (Hz) - should match your audio hardware
+audio_sample_rate = 24000
+
+# Maximum chunk size the API can handle (characters)
+max_chunk_chars_api_limit = 4800
