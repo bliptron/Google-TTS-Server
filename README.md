@@ -27,7 +27,7 @@ A FastAPI server for Google Gemini Text-to-Speech with a modern web interface.
 ## Demo
 
 <!-- Replace with your own screenshot or GIF -->
-![Gemini TTS Server Demo](static/demo-screenshot.png)
+![Gemini TTS Server Demo](app/static/demo-screenshot.png)
 
 ---
 
@@ -94,8 +94,13 @@ python -c "import uvicorn, fastapi; print('Dependencies OK')"
 ```
 
 ### 6. Start the Server
+
 ```bash
-python server.py
+# Windows:
+py server.py
+
+# Mac/Linux:
+python3 server.py
 ```
 
 ### 7. Access the Web Interface
@@ -120,14 +125,6 @@ Open in your browser:
 ### Authentication
 No authentication required for local development. For production, consider adding API key authentication.
 
-### Rate Limits
-- Default: 60 requests/minute
-- Adjust in `config.toml`:
-```toml
-[rate_limits]
-api_calls_per_minute = 60
-```
-
 ### Endpoints
 
 #### `POST /api/synthesize`
@@ -136,11 +133,14 @@ Convert text to speech audio.
 **Request:**
 ```json
 {
+  "task_id": "required-uuid",
   "text": "Hello world",
   "voice_name": "Fenrir",
   "audio_format": "mp3",
   "temperature": 1.0,
-  "task_id": "optional-uuid"
+  "chunk_size_chars": 1500,
+  "style_prompt": "optional style text",
+  "api_timeout_seconds": 60
 }
 ```
 
@@ -149,16 +149,20 @@ Convert text to speech audio.
 - Headers: `Content-Type: audio/mp3`
 - Body: Binary audio data
 
-**Error Responses:**
-- 400: Invalid input parameters
-- 429: Rate limit exceeded
-- 499: Task cancelled
-- 500: Server error
+**Success Response:**
+- Status: 200 OK
+- Headers: `Content-Type: audio/mp3`
+- Body: Binary audio data
 
 ---
 
 #### `GET /api/voices`
 List available voices.
+
+**Example Request:**
+```bash
+curl http://localhost:8008/api/voices
+```
 
 **Response:**
 ```json
@@ -179,6 +183,11 @@ List available voices.
 #### `POST /api/cancel_task/{task_id}`
 Cancel a running synthesis task.
 
+**Example Request:**
+```bash
+curl -X POST http://localhost:8008/api/cancel_task/test-task-123
+```
+
 **Response:**
 ```json
 {
@@ -189,29 +198,6 @@ Cancel a running synthesis task.
 
 ---
 
-## Development
-
-### Running Tests
-```bash
-pytest tests/
-```
-
-### Code Formatting
-```bash
-black .
-```
-
-### Linting
-```bash
-flake8 app/
-```
-
-### Debugging
-Enable debug mode:
-```bash
-python server.py --debug
-```
-
 ---
 
 ## Troubleshooting Guide
@@ -221,21 +207,17 @@ python server.py --debug
 #### No Audio Output
 1. Verify API key in `.env` is valid
 2. Check server logs for errors
-3. Test with simple text: `curl -X POST http://localhost:8008/api/synthesize -H "Content-Type: application/json" -d '{"text":"test"}'`
+3. Test with complete request: `curl -X POST http://localhost:8008/api/synthesize -H "Content-Type: application/json" -d '{"task_id":"test-123", "text":"test", "voice_name":"Fenrir", "audio_format":"mp3", "chunk_size_chars":1500}'`
 
-#### Port Conflicts
-```bash
-# Find process using port 8008:
-sudo lsof -i :8008
-# Kill process:
-kill -9 <PID>
-```
 
-#### API Errors
+#### API Error Codes
 | Code | Meaning | Solution |
 |------|---------|----------|
+| 400 | Invalid input parameters | Check request format |
 | 403 | Invalid API key | Check `.env` file |
-| 429 | Rate limited | Wait or increase limits |
+| 404 | No voices found | Check API connection |
+| 429 | Rate limit exceeded | Wait or increase limits |
+| 499 | Task cancelled | N/A |
 | 500 | Server error | Check logs |
 
 ---
@@ -252,7 +234,6 @@ kill -9 <PID>
 │   │   ├── css/
 │   │   ├── js/
 │   │   └── index.html
-├── tests/               # Test cases
 ├── config.toml          # Configuration
 ├── requirements.txt     # Dependencies
 ├── server.py            # Entry point
